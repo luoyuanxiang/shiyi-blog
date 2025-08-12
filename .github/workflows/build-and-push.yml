@@ -46,6 +46,7 @@ jobs:
           ACR_NAMESPACE: ${{ secrets.ALIYUN_ACR_NAMESPACE }}  # 你的命名空间
           IMAGE_NAME: shiyi-blog  # 镜像名称
         run: |
+          cd blog
           # 构建镜像
           docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ steps.extract-version.outputs.VERSION }} .
           
