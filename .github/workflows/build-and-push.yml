@@ -26,7 +26,7 @@ jobs:
       - name: 使用 Maven 构建
         run: |
           cd blog
-          mvn -B package --file pom.xml
+          mvn -B clean package -P prod --file pom.xml
 
       - name: 提取项目版本
         id: extract-version
