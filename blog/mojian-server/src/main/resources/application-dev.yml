@@ -1,0 +1,44 @@
+server:
+  port: 8800
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB:shiyi_blog}?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:123456}
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    timeout: 3000
+    database: 1
+  mail:
+    host: ${MAIL_HOST:smtp.qq.com}
+    port: ${MAIL_PORT:465}
+    password: ${MAIL_PASSWORD:}
+    username: ${MAIL_USERNAME:}
+
+#==============================公众号配置==============================
+wechat:
+  app-id: ${WECHAT_APP_ID:}
+  # 公众号AppSecret
+  secret: ${WECHAT_SECRET:}
+  # 公众号Token
+  token: ${WECHAT_TOKEN:}
+  # 公众号AES Key
+  aesKey: ${WECHAT_AES_KEY:}
+
+#==============================豆包推理AI配置=======================================
+ai:
+  # API Key
+  api-key: ${AI_API_KEY:}
+  # 推理接入点ID
+  base-url: ${{AI_BASE_URL:}
+  # 模型
+  model: ${AI_MODEL:}
+
+blog:
+  title: ${BLOG_TITLE:拾壹博客}

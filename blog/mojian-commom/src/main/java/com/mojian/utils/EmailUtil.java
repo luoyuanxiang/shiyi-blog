@@ -4,14 +4,14 @@ import com.mojian.common.RedisConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,7 +25,9 @@ import java.util.concurrent.TimeUnit;
 public class EmailUtil {
 
     @Resource
-    private JavaMailSenderImpl javaMailSender;
+    private JavaMailSender javaMailSender;
+    @Resource
+    private MailProperties mailProperties;
 
     @Value("${blog.title:拾壹博客}")
     private String title;
@@ -110,7 +112,7 @@ public class EmailUtil {
         // 设置邮件主题
         mineHelper.setSubject("您有一封来自 " + title + " 的回执！");
         // 设置邮件发送者
-        mineHelper.setFrom(Objects.requireNonNull(javaMailSender.getUsername()));
+        mineHelper.setFrom(mailProperties.getUsername());
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开
         mineHelper.setTo(email);
         // 设置邮件发送日期
