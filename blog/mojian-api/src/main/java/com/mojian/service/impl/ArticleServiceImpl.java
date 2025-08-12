@@ -3,21 +3,22 @@ package com.mojian.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.mojian.common.RedisConstants;
 import com.mojian.entity.SysArticle;
 import com.mojian.entity.SysCategory;
+import com.mojian.mapper.SysArticleMapper;
+import com.mojian.mapper.SysCategoryMapper;
 import com.mojian.service.ArticleService;
 import com.mojian.utils.IpUtil;
+import com.mojian.utils.PageUtil;
 import com.mojian.utils.RedisUtil;
 import com.mojian.vo.article.ArchiveListVo;
 import com.mojian.vo.article.ArticleDetailVo;
 import com.mojian.vo.article.ArticleListVo;
 import com.mojian.vo.article.CategoryListVo;
-import com.mojian.mapper.SysArticleMapper;
-import com.mojian.mapper.SysCategoryMapper;
-import com.mojian.utils.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,24 +48,35 @@ public class ArticleServiceImpl implements ArticleService {
         // 判断是否点赞
         Object userId = StpUtil.getLoginIdDefaultNull();
         if (userId != null) {
-           detailVo.setIsLike(sysArticleMapper.getUserIsLike(id, Integer.parseInt(userId.toString())));
+            detailVo.setIsLike(sysArticleMapper.getUserIsLike(id, Integer.parseInt(userId.toString())));
         }
 
         //添加阅读量
         String ip = IpUtil.getIp();
         ThreadUtil.execAsync(() -> {
             Map<Object, Object> map = redisUtil.hGetAll(RedisConstants.ARTICLE_QUANTITY);
-            List<String> ipList = (List<String> ) map.get(id.toString());
+            List<String> ipList = (List<String>) map.get(id.toString());
+            // 获取当前文章浏览数
+            LambdaQueryWrapper<SysArticle> queryWrapper = new LambdaQueryWrapper<SysArticle>()
+                    .eq(SysArticle::getId, id)
+                    .select(SysArticle::getQuantity);
+            SysArticle sysArticle = sysArticleMapper.selectOne(queryWrapper);
+            LambdaUpdateWrapper<SysArticle> updateWrapper = new LambdaUpdateWrapper<SysArticle>()
+                    .eq(SysArticle::getId, id);
+            Integer quantity = sysArticle.getQuantity();
             if (ipList != null) {
                 if (!ipList.contains(ip)) {
                     ipList.add(ip);
+                    sysArticle.setQuantity(quantity + 1);
                 }
-            }else {
+            } else {
                 ipList = new ArrayList<>();
                 ipList.add(ip);
+                sysArticle.setQuantity(quantity + 1);
             }
-            map.put(id.toString(),ipList);
-            redisUtil.hSetAll(RedisConstants.ARTICLE_QUANTITY,map);
+            sysArticleMapper.update(sysArticle, updateWrapper);
+            map.put(id.toString(), ipList);
+            redisUtil.hSetAll(RedisConstants.ARTICLE_QUANTITY, map);
         });
         return detailVo;
     }
@@ -105,7 +117,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (isLike) {
             // 点过则取消点赞
             sysArticleMapper.unLike(articleId, userId);
-        }else {
+        } else {
             sysArticleMapper.like(articleId, userId);
         }
         return true;
