@@ -1,12 +1,13 @@
 package com.mojian.utils;
 
+import com.mojian.config.AiConfig;
 import com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;
 import com.volcengine.ark.runtime.model.completion.chat.ChatMessage;
 import com.volcengine.ark.runtime.model.completion.chat.ChatMessageRole;
 import com.volcengine.ark.runtime.service.ArkService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +20,8 @@ import java.util.List;
 @Component
 public class AiUtil {
 
-    @Value("${ai.apiKey}")
-    private String apiKey;
-
-    @Value("${ai.baseUrl}")
-    private String baseUrl;
-
-    @Value("${ai.model}")
-    private String model;
+    @Resource
+    private AiConfig aiConfig;
 
     private ArkService service = null;
 
@@ -38,9 +33,9 @@ public class AiUtil {
     private void initService(){
         if (service == null){
             service = ArkService.builder()
-                    .apiKey(apiKey)
+                    .apiKey(aiConfig.getApiKey())
                     .timeout(Duration.ofMinutes(30)) //因为deep-seek深度搜索时间较长，所以设置较长的等待时间
-                    .baseUrl(baseUrl)
+                    .baseUrl(aiConfig.getBaseUrl())
                     .build();
         }
     }
@@ -60,7 +55,7 @@ public class AiUtil {
         messages.add(userMessage);
 
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                .model(model)
+                .model(aiConfig.getModel())
                 .messages(messages)
                 .build();
 

@@ -8,10 +8,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import javax.mail.*;
+import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Objects;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,45 +24,21 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class EmailUtil {
 
+    @Resource
+    private JavaMailSenderImpl javaMailSender;
 
-    @Value("${mail.smtp.email}")
-    private String fromEmail;
-
-    @Value("${mail.smtp.password}")
-    private String password;
-
-    @Value("${mail.smtp.port}")
-    private int port;
-
-    @Value("${mail.smtp.host}")
-    private String host;
+    @Value("${blog.title:拾壹博客}")
+    private String title;
 
     private final RedisUtil redisUtil;
 
-    private final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-
-
-
-    public void getJavaMailSenderImpl(){
-        javaMailSender.setHost(host);
-        javaMailSender.setUsername(fromEmail);
-        javaMailSender.setPassword(password);
-        javaMailSender.setPort(port);
-        javaMailSender.setDefaultEncoding("UTF-8");
-        Properties p = new Properties();
-        p.setProperty("mail.smtp.auth", "true");
-        p.setProperty("mail.debug", "true");
-        javaMailSender.setJavaMailProperties(p);
-    }
-
     /**
      * 发送验证码
+     *
      * @param email
      * @throws MessagingException
      */
     public void sendCode(String email) throws MessagingException {
-
-        this.getJavaMailSenderImpl();
 
         int code = (int) ((Math.random() * 9 + 1) * 100000);
         String content = "<html>\n" +
@@ -78,19 +54,19 @@ public class EmailUtil {
                 "            <tr style=\"background-color: #f8f8f8;\">\n" +
                 "              <td>\n" +
                 "                <img style=\"padding: 15px 0 15px 30px;width:50px\" src=\"https://foruda.gitee.com/avatar/1739413372327645883/13781_d029020a68_1739413372.png\" />" +
-                "                <span>拾壹博客 </span>\n" +
+                "                <span>" + title + " </span>\n" +
                 "              </td>\n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "              <td class=\"p-intro\">\n" +
                 "                <h1 style=\"font-size: 26px; font-weight: bold;\">验证您的邮箱地址</h1>\n" +
-                "                <p style=\"line-height:1.75em;\">感谢您使用 拾壹博客. </p>\n" +
-                "                <p style=\"line-height:1.75em;\">以下是您的邮箱验证码，请将它输入到  <span style=\"color:#409eff;\">拾壹博客</span> 的邮箱验证码输入框中:</p>\n" +
+                "                <p style=\"line-height:1.75em;\">感谢您使用 " + title + ". </p>\n" +
+                "                <p style=\"line-height:1.75em;\">以下是您的邮箱验证码，请将它输入到  <span style=\"color:#409eff;\">" + title + "</span> 的邮箱验证码输入框中:</p>\n" +
                 "              </td>\n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "              <td class=\"p-code\">\n" +
-                "                <p style=\"color: #253858;text-align:center;line-height:1.75em;background-color: #f2f2f2;min-width: 200px;margin: 0 auto;font-size: 28px;border-radius: 5px;border: 1px solid #d9d9d9;font-weight: bold;\">"+code+"</p>\n" +
+                "                <p style=\"color: #253858;text-align:center;line-height:1.75em;background-color: #f2f2f2;min-width: 200px;margin: 0 auto;font-size: 28px;border-radius: 5px;border: 1px solid #d9d9d9;font-weight: bold;\">" + code + "</p>\n" +
                 "              </td>\n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
@@ -101,7 +77,7 @@ public class EmailUtil {
                 "            <tr>\n" +
                 "              <td class=\"p-intro\">\n" +
                 "                <hr>\n" +
-                "                <p style=\"text-align: center;line-height:1.75em;\">shiyi - <a href='https://www.shiyit.com' style='text-decoration: none;color:#409eff'>拾壹博客</a></p>\n" +
+                "                <p style=\"text-align: center;line-height:1.75em;\">shiyi - <a href='https://www.shiyit.com' style='text-decoration: none;color:#409eff'>" + title + "</a></p>\n" +
                 "              </td>\n" +
                 "            </tr>\n" +
                 "          </tbody>\n" +
@@ -120,9 +96,9 @@ public class EmailUtil {
 
         // 创建邮件消息
         this.send(email, content);
-        log.info("邮箱验证码发送成功,邮箱:{},验证码:{}",email,code);
+        log.info("邮箱验证码发送成功,邮箱:{},验证码:{}", email, code);
 
-        redisUtil.set(RedisConstants.CAPTCHA_CODE + email, code +"");
+        redisUtil.set(RedisConstants.CAPTCHA_CODE + email, code + "");
         redisUtil.expire(RedisConstants.CAPTCHA_CODE + email, RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
     }
 
@@ -132,7 +108,7 @@ public class EmailUtil {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mineHelper = new MimeMessageHelper(mimeMessage, true);
         // 设置邮件主题
-        mineHelper.setSubject("您有一封来自 拾壹博客 的回执！");
+        mineHelper.setSubject("您有一封来自 " + title + " 的回执！");
         // 设置邮件发送者
         mineHelper.setFrom(Objects.requireNonNull(javaMailSender.getUsername()));
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开
@@ -140,7 +116,7 @@ public class EmailUtil {
         // 设置邮件发送日期
         mineHelper.setSentDate(DateUtil.getNowDate());
         // 设置邮件的正文
-        mineHelper.setText(template,true);
+        mineHelper.setText(template, true);
         // 发送邮件
         javaMailSender.send(mimeMessage);
     }
