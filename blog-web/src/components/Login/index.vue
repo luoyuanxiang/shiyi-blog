@@ -43,11 +43,7 @@
               @click="handleThirdPartyLogin(type)">
               <el-tooltip :content="item.title" placement="top">
                 <div :class="['login-icon', type]">
-                  <i :class="item.icon" v-if="type === 'github'"></i>
-                  <i :class="item.icon" v-if="type === 'qq'"></i>
-                  <i :class="item.icon" v-if="type === 'wechat'"></i>
-                  <i :class="item.icon" v-if="type === 'gitee'"></i>
-                  <i :class="item.icon" v-if="type === 'weibo'"></i>
+                  <i :class="item.icon"></i>
                 </div>
               </el-tooltip>
 

@@ -25,7 +25,7 @@ public class AuthController {
 
     @RequestMapping("/api/auth/render/{source}")
     @ApiOperation(value = "获取第三方授权地址")
-    public Result<String> renderAuth(HttpServletResponse response, @PathVariable String source) {
+    public Result<String> renderAuth(@PathVariable String source) {
         return Result.success(authService.renderAuth(source));
     }
 

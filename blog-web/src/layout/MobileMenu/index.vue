@@ -59,8 +59,8 @@ export default {
       if (!rootRoute || !rootRoute.children) return []
       
       return rootRoute.children.filter(route => {
-        if (!route.name || route.meta?.hidden) return false
-        return true
+        return !(!route.name || route.meta?.hidden);
+
       })
     }
   },
