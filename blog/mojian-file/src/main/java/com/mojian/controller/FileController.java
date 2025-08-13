@@ -3,11 +3,11 @@ package com.mojian.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mojian.common.Constants;
 import com.mojian.common.Result;
 import com.mojian.entity.FileDetail;
 import com.mojian.entity.SysFileOss;
 import com.mojian.exception.ServiceException;
+import com.mojian.init.FileStorageInit;
 import com.mojian.service.FileDetailService;
 import com.mojian.utils.DateUtil;
 import io.swagger.annotations.Api;
@@ -31,6 +31,8 @@ public class FileController {
 
     private final FileStorageService fileStorageService;
 
+    private final FileStorageInit fileStorageInit;
+
 
     @SaCheckLogin
     @GetMapping("/list")
@@ -52,9 +54,7 @@ public class FileController {
     @ApiOperation(value = "添加存储平台配置")
     public Result<Void> addOss(@RequestBody SysFileOss sysFileOss) {
         fileDetailService.addOss(sysFileOss);
-        if (sysFileOss.getIsEnable() == Constants.YES) {
-            fileStorageService.getProperties().setDefaultPlatform(sysFileOss.getPlatform());
-        }
+        fileStorageInit.init();
         return Result.success();
     }
 
@@ -64,9 +64,7 @@ public class FileController {
     @ApiOperation(value = "修改存储平台配置")
     public Result<Void> updateOss(@RequestBody SysFileOss sysFileOss) {
         fileDetailService.updateOss(sysFileOss);
-        if (sysFileOss.getIsEnable() == Constants.YES) {
-            fileStorageService.getProperties().setDefaultPlatform(sysFileOss.getPlatform());
-        }
+        fileStorageInit.init();
         return Result.success();
     }
 

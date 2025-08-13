@@ -49,6 +49,9 @@ public class SysFileOss implements Serializable {
     @ApiModelProperty(value = "仓库所在地域")
     private String region;
 
+    @ApiModelProperty(value = "端点")
+    private String endpoint;
+
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
