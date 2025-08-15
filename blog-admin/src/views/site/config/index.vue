@@ -6,7 +6,7 @@
         <el-tab-pane name="basic">
           <template #label>
             <el-icon>
-              <Setting />
+              <Setting/>
             </el-icon>
             <span class="tab-label">基本信息</span>
           </template>
@@ -14,31 +14,31 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="网站Logo" prop="logo">
-                  <upload-image v-model="form.logo" :limit="1" />
+                  <upload-image v-model="form.logo" :limit="1"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="网站名称" prop="name">
-                  <el-input v-model="form.name" placeholder="请输入网站名称" />
+                  <el-input v-model="form.name" placeholder="请输入网站名称"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="网站介绍" prop="summary">
-                  <el-input v-model="form.summary" type="textarea" placeholder="请输入网站介绍" />
+                  <el-input v-model="form.summary" type="textarea" placeholder="请输入网站介绍"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="备案号" prop="recordNum">
-                  <el-input v-model="form.recordNum" placeholder="请输入备案号" />
+                  <el-input v-model="form.recordNum" placeholder="请输入备案号"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="网站地址" prop="webUrl">
-                  <el-input v-model="form.webUrl" placeholder="请输入网站地址" />
+                  <el-input v-model="form.webUrl" placeholder="请输入网站地址"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -49,7 +49,7 @@
         <el-tab-pane name="author">
           <template #label>
             <el-icon>
-              <User />
+              <User/>
             </el-icon>
             <span class="tab-label">作者信息</span>
           </template>
@@ -57,29 +57,31 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="作者头像" prop="authorAvatar">
-                  <upload-image v-model="form.authorAvatar" :limit="1" />
+                  <upload-image v-model="form.authorAvatar" :limit="1"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="作者名称" prop="author">
-                  <el-input v-model="form.author" placeholder="请输入作者名称" />
+                  <el-input v-model="form.author" placeholder="请输入作者名称"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="个性签名" prop="authorInfo">
-                  <el-input v-model="form.authorInfo" placeholder="请输入个性签名" />
+                  <el-input v-model="form.authorInfo" placeholder="请输入个性签名"/>
                 </el-form-item>
               </el-col>
             </el-row>
-                <el-form-item label="关于我" prop="aboutMe">
-                  <div style="border: 1px solid #ccc;">
-                      <Toolbar style="border-bottom: 1px solid #ccc;width: 1200px;" :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" />
-                      <Editor style=" overflow-y: hidden;width: 1200px" v-model="form.aboutMe" :defaultConfig="editorConfig" :mode="mode"
-                      @onCreated="handleCreated"/>
-                  </div>
-                </el-form-item>
+            <el-form-item label="关于我" prop="aboutMe">
+              <div style="border: 1px solid #ccc;">
+                <Toolbar style="border-bottom: 1px solid #ccc;width: 1200px;" :editor="editorRef"
+                         :defaultConfig="toolbarConfig" :mode="mode"/>
+                <Editor style=" overflow-y: hidden;width: 1200px" v-model="form.aboutMe" :defaultConfig="editorConfig"
+                        :mode="mode"
+                        @onCreated="handleCreated"/>
+              </div>
+            </el-form-item>
 
           </el-form>
         </el-tab-pane>
@@ -88,7 +90,7 @@
         <el-tab-pane name="social">
           <template #label>
             <el-icon>
-              <Share />
+              <Share/>
             </el-icon>
             <span class="tab-label">社交信息</span>
           </template>
@@ -97,7 +99,7 @@
               <el-input v-model="form.github" placeholder="请输入Github地址">
                 <template #prefix>
                   <el-icon>
-                    <ElementPlus />
+                    <ElementPlus/>
                   </el-icon>
                 </template>
               </el-input>
@@ -107,7 +109,7 @@
               <el-input v-model="form.gitee" placeholder="请输入Gitee地址">
                 <template #prefix>
                   <el-icon>
-                    <Platform />
+                    <Platform/>
                   </el-icon>
                 </template>
               </el-input>
@@ -117,7 +119,7 @@
               <el-input v-model="form.qqNumber" placeholder="请输入QQ号">
                 <template #prefix>
                   <el-icon>
-                    <ChatDotRound />
+                    <ChatDotRound/>
                   </el-icon>
                 </template>
               </el-input>
@@ -127,7 +129,7 @@
               <el-input v-model="form.qqGroup" placeholder="请输入QQ群">
                 <template #prefix>
                   <el-icon>
-                    <User />
+                    <User/>
                   </el-icon>
                 </template>
               </el-input>
@@ -137,7 +139,7 @@
               <el-input v-model="form.wechat" placeholder="请输入微信号">
                 <template #prefix>
                   <el-icon>
-                    <ChatLineRound />
+                    <ChatLineRound/>
                   </el-icon>
                 </template>
               </el-input>
@@ -147,7 +149,7 @@
               <el-input v-model="form.email" placeholder="请输入邮箱地址">
                 <template #prefix>
                   <el-icon>
-                    <Message />
+                    <Message/>
                   </el-icon>
                 </template>
               </el-input>
@@ -159,7 +161,7 @@
         <el-tab-pane name="payment">
           <template #label>
             <el-icon>
-              <Money />
+              <Money/>
             </el-icon>
             <span class="tab-label">收款信息</span>
           </template>
@@ -167,12 +169,12 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="支付宝收款码" prop="aliPay">
-                  <upload-image v-model="form.aliPay" :limit="1" />
+                  <upload-image v-model="form.aliPay" :limit="1"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="微信收款码" prop="weixinPay">
-                  <upload-image v-model="form.weixinPay" :limit="1" />
+                  <upload-image v-model="form.weixinPay" :limit="1"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -183,7 +185,7 @@
         <el-tab-pane name="settings">
           <template #label>
             <el-icon>
-              <Tools />
+              <Tools/>
             </el-icon>
             <span class="tab-label">网站设置</span>
           </template>
@@ -191,7 +193,7 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="游客头像" prop="touristAvatar">
-                  <upload-image v-model="form.touristAvatar" :limit="1" />
+                  <upload-image v-model="form.touristAvatar" :limit="1"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -199,19 +201,19 @@
               <el-col :span="12">
                 <el-form-item label="显示的社交信息" prop="showList">
                   <el-select v-model="showList" multiple placeholder="请选择要显示的社交信息">
-                    <el-option label="邮箱" value="email" />
-                    <el-option label="QQ" value="qq" />
-                    <el-option label="QQ群" value="qqGroup" />
-                    <el-option label="Github" value="github" />
-                    <el-option label="Gitee" value="gitee" />
-                    <el-option label="微信" value="wechat" />
+                    <el-option label="邮箱" value="email"/>
+                    <el-option label="QQ" value="qq"/>
+                    <el-option label="QQ群" value="qqGroup"/>
+                    <el-option label="Github" value="github"/>
+                    <el-option label="Gitee" value="gitee"/>
+                    <el-option label="微信" value="wechat"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="登录方式" prop="loginTypeList">
                   <el-select v-model="loginTypeList" multiple placeholder="请选择登录方式">
-                    <el-option v-for="item in loginTypes" :label="item.label" :value="item.value" />
+                    <el-option v-for="item in loginTypes" :label="item.label" :value="item.value"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -219,49 +221,51 @@
             <el-row :gutter="20">
               <el-col :span="8">
                 <el-form-item label="开启评论">
-                  <el-switch v-model="form.openComment" :active-value="1" :inactive-value="0" />
+                  <el-switch v-model="form.openComment" :active-value="1" :inactive-value="0"/>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="开启赞赏">
-                  <el-switch v-model="form.openAdmiration" :active-value="1" :inactive-value="0" />
+                  <el-switch v-model="form.openAdmiration" :active-value="1" :inactive-value="0"/>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="开启灯笼">
-                  <el-switch v-model="form.openLantern" :active-value="1" :inactive-value="0" />
+                  <el-switch v-model="form.openLantern" :active-value="1" :inactive-value="0"/>
                 </el-form-item>
               </el-col>
             </el-row>
-             <!--<el-row :gutter="20">
+            <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="公告" prop="bulletin">
-                  <el-input v-model="form.bulletin" type="textarea" :rows="3" placeholder="请输入公告内容" />
+                  <el-input v-model="form.bulletin" type="textarea" :rows="3" placeholder="请输入公告内容"/>
                 </el-form-item>
               </el-col>
-            </el-row>-->
+            </el-row>
           </el-form>
         </el-tab-pane>
       </el-tabs>
 
       <!-- 底部按钮 -->
       <div class="bottom-buttons">
-        <el-button icon="Refresh" type="primary" v-permission="['sys:web:update']" @click="submitForm">保存配置</el-button>
+        <el-button icon="Refresh" type="primary" v-permission="['sys:web:update']" @click="submitForm">保存配置
+        </el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
-import type { FormInstance } from 'element-plus'
+import type {FormInstance} from 'element-plus'
+import {ElMessage} from 'element-plus'
 import UploadImage from '@/components/Upload/Image.vue'
-import { getWebConfigApi, updateWebConfigApi } from '@/api/site/config'
-import { getDictDataByDictTypesApi } from '@/api/system/dict'
-import { uploadApi } from '@/api/file'
+import {getWebConfigApi, updateWebConfigApi} from '@/api/site/config'
+import {getDictDataByDictTypesApi} from '@/api/system/dict'
+import {uploadApi} from '@/api/file'
 
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 import '@wangeditor/editor/dist/css/style.css'
+
 const editorRef = shallowRef()
 const mode = 'default'
 const toolbarConfig = {}
@@ -276,10 +280,10 @@ const editorConfig = {
     codeSelectLang: {
       // 代码语言
       codeLangs: [
-        { text: "CSS", value: "css" },
-        { text: "HTML", value: "html" },
-        { text: "XML", value: "xml" },
-        { text: "Java", value: "java" },
+        {text: "CSS", value: "css"},
+        {text: "HTML", value: "html"},
+        {text: "XML", value: "xml"},
+        {text: "Java", value: "java"},
         // 其他
       ],
     },
@@ -322,11 +326,11 @@ const loginTypes = ref<any>([])
 const files = ref();
 
 const rules = {
-  name: [{ required: true, message: '请输入网站名称', trigger: 'blur' }],
-  logo: [{ required: true, message: '请上传网站Logo', trigger: 'change' }],
-  summary: [{ required: true, message: '请输入网站介绍', trigger: 'blur' }],
-  recordNum: [{ required: true, message: '请输入备案号', trigger: 'blur' }],
-  author: [{ required: true, message: '请输入作者名称', trigger: 'blur' }]
+  name: [{required: true, message: '请输入网站名称', trigger: 'blur'}],
+  logo: [{required: true, message: '请上传网站Logo', trigger: 'change'}],
+  summary: [{required: true, message: '请输入网站介绍', trigger: 'blur'}],
+  recordNum: [{required: true, message: '请输入备案号', trigger: 'blur'}],
+  author: [{required: true, message: '请输入作者名称', trigger: 'blur'}]
 }
 
 // 提交表单
@@ -348,7 +352,7 @@ const getDictDataByDictTypes = async () => {
   loginTypes.value = res.data.login_type.list
 }
 
-const handleCreated = (editor:any) => {
+const handleCreated = (editor: any) => {
   editorRef.value = editor // 记录 editor 实例，重要！
 }
 
@@ -356,7 +360,7 @@ const handleCreated = (editor:any) => {
 function contentUpload(file: any, insertFn: any) {
   files.value = file;
   // FormData 对象
-  var formData = new FormData();
+  const formData = new FormData();
   // 文件对象
   formData.append("file", files.value);
   uploadApi(formData).then((res: any) => {
@@ -367,6 +371,7 @@ function contentUpload(file: any, insertFn: any) {
 onMounted(() => {
   getWebConfigApi().then((res) => {
     form.value = res.data
+    console.log(form.value, 1234)
     if (form.value.showList) {
       showList.value = JSON.parse(form.value.showList)
     }
