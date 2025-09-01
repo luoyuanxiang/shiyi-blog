@@ -64,38 +64,38 @@ jobs:
             ACR_REGISTRY: ${{ secrets.ALIYUN_ACR_REGISTRY }}
             ACR_NAMESPACE: ${{ secrets.ALIYUN_ACR_NAMESPACE }}
             IMAGE_NAME: shiyi-blog-admin
-            VERSION: latest
+            DOCKER_VERSION: latest
         run: |
             cd blog-admin
             # 构建镜像
-            docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ VERSION }} .
+            docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
             
             # 如果是标签推送，额外添加latest标签
             if [[ $GITHUB_REF == refs/tags/* ]]; then
-            docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ VERSION }} $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
+            docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
             docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
             fi
             
             # 推送版本标签镜像
-            docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ VERSION }}
+            docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
 
       - name: 构建和推送 Docker 镜像 前端 web 包
         env:
           ACR_REGISTRY: ${{ secrets.ALIYUN_ACR_REGISTRY }}
           ACR_NAMESPACE: ${{ secrets.ALIYUN_ACR_NAMESPACE }}
           IMAGE_NAME: shiyi-blog-admin
-          VERSION: latest
+          DOCKER_VERSION: latest
         run: |
           cd blog-web
           
           # 构建镜像
-          docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ VERSION }} .
+          docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
           
           # 如果是标签推送，额外添加latest标签
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-          docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ VERSION }} $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
+          docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
           docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
           fi
           
           # 推送版本标签镜像
-          docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ VERSION }}
+          docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
