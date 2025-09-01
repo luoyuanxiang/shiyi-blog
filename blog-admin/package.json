@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "admin": "vite",
-    "build": "vite build",
+    "admin-build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {

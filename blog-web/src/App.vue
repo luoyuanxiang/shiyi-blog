@@ -43,6 +43,18 @@ export default {
   },
 
   async created() {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        //离开此标签页
+        document.title = "不要走吗o(>﹏<)o"
+      } else {
+        //进入此标签页
+        document.title = "咦~ 你又回来了O(∩_∩)O哈哈~"
+        window.setTimeout(() => {
+          document.title = "拾壹博客-一个专注于技术分享的博客平台"
+        }, 800)
+      }
+    }, false);
     await reportApi()
     const res = await getWebConfigApi()
     this.setSiteInfo(res.data)

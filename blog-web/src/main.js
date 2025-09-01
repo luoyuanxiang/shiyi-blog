@@ -5,6 +5,8 @@ import store from './store'
 import gsap from 'gsap'
 import 'animate.css'
 import VueLazyload from 'vue-lazyload'
+import error from './assets/img-error.jpg'
+import lazy from './assets/lazy.gif'
 
 import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
@@ -12,8 +14,8 @@ gsap.registerPlugin(ScrollTrigger)
 // 配置 vue-lazyload
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: 'https://img.shiyit.com/base/mojian/img-error.jpg',
-  loading: 'https://img.shiyit.com/base/mojian/lazy.gif',
+  error: error,
+  loading: lazy,
   attempt: 1,
   observer: true,
   observerOptions: {
