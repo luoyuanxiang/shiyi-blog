@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "web": "vite",
-    "web-build": "vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
