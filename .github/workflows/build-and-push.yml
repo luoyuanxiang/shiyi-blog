@@ -72,8 +72,9 @@ jobs:
             DOCKER_VERSION: latest
         run: |
             cd blog-admin
-            npm install
-            npm run admin-build
+            npm install -g pnpm
+            pnpm install
+            pnpm run web-build
             # 构建镜像
             docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
             
@@ -94,8 +95,9 @@ jobs:
           DOCKER_VERSION: latest
         run: |
           cd blog-web
-          npm install
-          npm run web-build
+          npm install -g pnpm
+          pnpm install
+          pnpm run web-build
           # 构建镜像
           docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
           
