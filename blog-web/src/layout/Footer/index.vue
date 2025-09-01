@@ -10,7 +10,7 @@
           <span class="time-value">{{ seconds }}</span> 秒
         </div>
         <div class="copyright">
-          Copyright©{{ startYear }}-{{ currentYear }} {{ $store.state.webSiteInfo.name }}
+          Copyright©{{ copyright }} {{ $store.state.webSiteInfo.name }}
           <span class="divider">·</span>
           <a href="https://beian.miit.gov.cn/" 
              target="_blank" 
@@ -29,22 +29,21 @@ export default {
   name: 'TheFooter',
   data() {
     return {
-      startYear: 2021,
+      startYear: 0,
       days: 0,
       hours: 0,
       minutes: 0,
       seconds: 0,
       timer: null,
-      startDate: new Date('2021-08-31')
-    }
-  },
-  computed: {
-    currentYear() {
-      return new Date().getFullYear()
+      startDate: new Date(),
+      copyright: ''
     }
   },
   methods: {
     calculateRunningTime() {
+      this.startDate = new Date(this.$store.state.webSiteInfo.startDate)
+      this.startYear = this.startDate.getFullYear()
+      this.copyright = this.startYear === new Date().getFullYear() ? this.startYear : `${this.startYear} - ${new Date().getFullYear()}`
       const now = new Date()
       const diff = now - this.startDate
       

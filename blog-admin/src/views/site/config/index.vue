@@ -42,6 +42,18 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="网站上线时间" prop="startDate">
+                  <el-date-picker
+                      v-model="form.startDate"
+                      type="date"
+                      placeholder="选择日期时间"
+                      value-format="YYYY-MM-DD" >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-form>
         </el-tab-pane>
 
@@ -317,7 +329,8 @@ const form = ref({
   touristAvatar: '',
   bulletin: '',
   aboutMe: '',
-  openLantern: 0
+  openLantern: 0,
+  startDate: ''
 })
 const showList = ref([])
 const loginTypeList = ref([])
@@ -371,7 +384,6 @@ function contentUpload(file: any, insertFn: any) {
 onMounted(() => {
   getWebConfigApi().then((res) => {
     form.value = res.data
-    console.log(form.value, 1234)
     if (form.value.showList) {
       showList.value = JSON.parse(form.value.showList)
     }

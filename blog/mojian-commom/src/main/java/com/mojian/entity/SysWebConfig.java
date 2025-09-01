@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 /**
  * 网站配置表
  */
@@ -92,6 +92,9 @@ public class SysWebConfig implements Serializable {
 
     @ApiModelProperty(value = "是否开启灯笼")
     private Integer openLantern;
+
+    @ApiModelProperty(value = "博客上线时间")
+    private String startDate;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
