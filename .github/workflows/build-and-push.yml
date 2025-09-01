@@ -91,7 +91,7 @@ jobs:
         env:
           ACR_REGISTRY: ${{ secrets.ALIYUN_ACR_REGISTRY }}
           ACR_NAMESPACE: ${{ secrets.ALIYUN_ACR_NAMESPACE }}
-          IMAGE_NAME: shiyi-blog-admin
+          IMAGE_NAME: shiyi-blog-web
           DOCKER_VERSION: latest
         run: |
           cd blog-web
