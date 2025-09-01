@@ -59,6 +59,11 @@ jobs:
           # 推送版本标签镜像
           docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ steps.extract-version.outputs.VERSION }}
 
+      - name: 设置 node 版本
+        uses: actions/setup-node@v3
+        with:
+            node-version: '20.x'
+
       - name: 构建和推送 Docker 镜像 后台管理端 包
         env:
             ACR_REGISTRY: ${{ secrets.ALIYUN_ACR_REGISTRY }}
@@ -67,6 +72,8 @@ jobs:
             DOCKER_VERSION: latest
         run: |
             cd blog-admin
+            npm install
+            npm run admin-build
             # 构建镜像
             docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
             
@@ -87,7 +94,8 @@ jobs:
           DOCKER_VERSION: latest
         run: |
           cd blog-web
-          
+          npm install
+          npm run web-build
           # 构建镜像
           docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
           
