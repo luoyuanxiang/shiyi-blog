@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 COPY /blog/mojian-server/target/*.jar /app/app.jar
 
 # 复制Vue构建产物到Nginx
-COPY /blog-admin/dist /admin/
-COPY /blog-web/dist /web/
+COPY /blog-admin/dist /var/www/admin
+COPY /blog-web/dist /var/www/frontend
 
 # 复制Nginx配置文件
 COPY nginx.conf /etc/nginx/conf.d/default.conf

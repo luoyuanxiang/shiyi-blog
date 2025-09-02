@@ -1,9 +1,7 @@
 version: '3.7'
 services:
-  blog-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  blog:
+    image: registry.cn-chengdu.aliyuncs.com/lyx_blog/shiyi-blog
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/shiyi_blog?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root

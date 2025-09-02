@@ -28,10 +28,24 @@ jobs:
           cd blog
           mvn -B clean package -P prod --file pom.xml
 
-      - name: 提取项目版本
-        id: extract-version
+      - name: 设置 node 版本
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: 构建前端包
         run: |
-          echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+          cd blog-web
+          npm install -g pnpm
+          pnpm install
+          npm run build
+
+      - name: 构建后端包
+        run: |
+          cd blog-admin
+          npm install -g pnpm
+          pnpm install
+          npm run build
 
       - name: 登录阿里云容器注册表
         uses: aliyun/acr-login@v1
@@ -40,71 +54,21 @@ jobs:
           username: ${{ secrets.ALIYUN_ACR_USERNAME }}
           password: ${{ secrets.ALIYUN_ACR_PASSWORD }}
 
-      - name: 构建和推送 Docker 镜像 jar 包
+      - name: 构建和推送 Docker 镜像
         env:
           ACR_REGISTRY: ${{ secrets.ALIYUN_ACR_REGISTRY }}
           ACR_NAMESPACE: ${{ secrets.ALIYUN_ACR_NAMESPACE }}  # 你的命名空间
           IMAGE_NAME: shiyi-blog  # 镜像名称
-        run: |
-          cd blog
-          # 构建镜像
-          docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ steps.extract-version.outputs.VERSION }} .
-          
-          # 如果是标签推送，额外添加latest标签
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ steps.extract-version.outputs.VERSION }} $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
-            docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
-          fi
-          
-          # 推送版本标签镜像
-          docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:${{ steps.extract-version.outputs.VERSION }}
-
-      - name: 设置 node 版本
-        uses: actions/setup-node@v3
-        with:
-            node-version: '20.x'
-
-      - name: 构建和推送 Docker 镜像 后台管理端 包
-        env:
-            ACR_REGISTRY: ${{ secrets.ALIYUN_ACR_REGISTRY }}
-            ACR_NAMESPACE: ${{ secrets.ALIYUN_ACR_NAMESPACE }}
-            IMAGE_NAME: shiyi-blog-admin
-            DOCKER_VERSION: latest
-        run: |
-            cd blog-admin
-            npm install -g pnpm
-            pnpm install
-            npm run build
-            # 构建镜像
-            docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
-            
-            # 如果是标签推送，额外添加latest标签
-            if [[ $GITHUB_REF == refs/tags/* ]]; then
-            docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
-            docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
-            fi
-            
-            # 推送版本标签镜像
-            docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
-
-      - name: 构建和推送 Docker 镜像 前端 web 包
-        env:
-          ACR_REGISTRY: ${{ secrets.ALIYUN_ACR_REGISTRY }}
-          ACR_NAMESPACE: ${{ secrets.ALIYUN_ACR_NAMESPACE }}
-          IMAGE_NAME: shiyi-blog-web
           DOCKER_VERSION: latest
         run: |
-          cd blog-web
-          npm install -g pnpm
-          pnpm install
-          npm run build
+          cd blog
           # 构建镜像
           docker build -t $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION .
           
           # 如果是标签推送，额外添加latest标签
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-          docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
-          docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
+            docker tag $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:$DOCKER_VERSION
+            docker push $ACR_REGISTRY/$ACR_NAMESPACE/$IMAGE_NAME:latest
           fi
           
           # 推送版本标签镜像

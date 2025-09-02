@@ -76,6 +76,7 @@
 
 <script>
 import { getRecommendArticlesApi } from '@/api/article'
+import b from './../../assets/beijing.jpg'
 
 export default {
   name: 'Sidebar',
