@@ -10,7 +10,7 @@
     <Lantern />
     <RandomVideo />
     <div class="cursor-container"></div>
-    <!-- <Fireworks /> -->
+     <Fireworks />
   </div>
 </template>
 
@@ -26,7 +26,7 @@ import SearchDialog from '@/components/Search/index.vue'
 import MobileMenu from '@/layout/MobileMenu/index.vue'
 import Lantern from '@/components/Lanterns/index.vue'
 import RandomVideo from '@/components/RandomVideo/index.vue'
-//import Fireworks from '@/components/Fireworks/index.vue'
+import Fireworks from '@/components/Fireworks/index.vue'
 import { getCookie,removeCookie } from '@/utils/cookie'
 export default {
   name: 'App',
@@ -39,7 +39,7 @@ export default {
     MobileMenu,
     Lantern,
     RandomVideo,
- //   Fireworks
+   Fireworks
   },
 
   async created() {

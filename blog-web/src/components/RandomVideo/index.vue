@@ -28,7 +28,7 @@ export default {
     data() {
         return {
             drawer: false,
-            videoSrc: 'http://api.yujn.cn/api/zzxjj.php',
+            videoSrc: 'https://api.yujn.cn/api/zzxjj.php',
             isPlaying: true,
             btnContent: '暂停',
             btnIcon: 'el-icon-video-pause'

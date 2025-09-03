@@ -62,6 +62,8 @@ if (import.meta.hot) {
 
 import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
+import tagCloud from 'v-tag-cloud'
+Vue.use(tagCloud)
 Vue.use(mavonEditor);
 
 Vue.config.productionTip = false
